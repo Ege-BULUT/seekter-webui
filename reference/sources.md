@@ -271,9 +271,19 @@ UI fallback (browser): `https://freehire.me/jobs?q=<search>&regions=europe,globa
 - Card links open an empty popup and detail pages load empty, so go to the company's own career site (e.g. `jobs.sap.com/search/?q=...`).
 - Mostly US.
 - 16–17 Sept: wouldn't open (`document_idle` 45 s timeout). 18 Sept: newest posting dated 15 Sept. 19 Sept: working again.
+- 27 Sept: alive, 118 jobs, filters for Discipline / Role / Type / Location. Newest entry was 2 days old and the fresh page is dominated by US roles plus a run of French postings from one agency (NEXTON). Useful, but it surfaces less than the niche design-systems board and it lags it by a day or two.
 - Scan 2–3 days a week, not daily.
 
+**⛔ The US PERM labor-certification notice, and how to recognise it before you fill a form.** Measured 27 Sept on an AcuityMD Greenhouse posting that had reached the candidate list from two sources. A US employer sponsoring a green card must advertise the role publicly, and those notices are posted on the normal job board and look like openings. The tells, all present together:
+- The body opens in the third person naming the company and a single city: "‹Company›, Inc seeks ‹Title› in ‹City›, ‹State›", even when the header says "‹City› or Remote".
+- The description is a flat "Job Duties:" block rather than a pitch, a team description or benefits.
+- "Minimum Requirements: Bachelor's degree, **or foreign equivalent**, in ‹named fields› plus N years of progressively responsible experience **in the job offered** or a related occupation."
+- A numbered list of "Special Skill Requirements", each carrying its own year count (3 years, 4 years, 3 years…).
+That shape exists to be impossible to match except by the person already in the seat. **Skip on sight.** It is also usually paired with a hard degree field requirement, which is an ordinary knockout on its own.
+
 **jobs.intodesignsystems.com**
+- **27 Sept: the board is paginated now** and no longer renders a long flat list. The footer reads "Showing 1–20 of 186" with 10 pages, so `a[href^="/jobs/"]` returns 20 anchors however far you scroll. Page 1 is newest-first and on a daily cadence it covers everything posted in the last three days, which is the whole point of the stop; page 2 onward is material earlier runs already swept. Don't read 20 anchors as "the board shrank".
+- **A daily stop can legitimately return nothing.** 28 Sept: page 1 was byte-for-byte the same twenty listings as 27 Sept, newest still 2 days old. That is the board being quiet, not the scrape failing. Compare the first slug against yesterday's before spending calls re-resolving apply URLs.
 - About 254–259 roles, no account, no paywall. The main domain `/jobs` returns 404; use the `jobs.` subdomain.
 - Each job page has an "Apply on <company>" link to the ATS: fetch `/jobs/<slug>` and take the `a` whose text matches `/apply on/i`.
 - 8 Sept bulk extraction script (the pagination part stopped working later, see §0):
@@ -325,6 +335,10 @@ window.MORE=function(){var b=[...document.querySelectorAll('button')]
 - Verdict: not a daily source. Weekly at most, `keyword-ui_ux` + Worldwide, always check Domain. Also check that the listing is still active.
 - Profile-form mechanics: "Experience summary" is a contenteditable editor (the setter on `textarea#moreinfo` doesn't display), so type for real. The category auto-sets from the position. `+ Add skill` doesn't focus the new row. `skills_experience[N][experience_years]` accepts the native setter. There is only a single `salary_min`, no range.
 
+**Jobicy, measured 26, 27 and 28 Sept — the same three stale records every time.** Four tags (`product-designer`, `ux-designer`, `design-system`, `product-design`) returned **3 records in total** and none on-discipline: a Staff Android Engineer under `design-system`, and two Canada-only marketing designer roles under `product-design`. `product-designer` and `ux-designer` returned nothing at all. Re-run on 27 and 28 Sept it returned **the identical three rows**, none newer than 20 Sept. It stays in the daily list because it costs one curl per tag, but do not read an empty Jobicy as an empty market, and do not read a changed count as freshness either.
+
+**Working Nomads, measured 26 Sept: the HTML category page is worth its slot.** `workingnomads.com/remote-design-jobs` rendered 50 listings, of which 15 were on-discipline and **12 passed dedup as new**. One more looked new and resolved to a posting already applied to weeks earlier under a different ATS key, reached through a third URL. That is the best single-source yield of the day outside LinkedIn, and it is the same source whose open `exposed_jobs` API carried zero design roles on 24 Sept. **Scrape the anchors, not the cards:** `closest('li')` grabs the wrong container and every row comes back with the first listing's text, which looks like the page failed to load. `a[href^="/jobs/"]` gives one slug per listing and the slug carries the title and the company (`senior-product-designer-codelitt-1895013`). The apply URL is behind `/job/go/<id>/`, which 302s to the real ATS, so resolve it before running `check`.
+
 **Himalayas**
 - Useful for **verification**: its "eligibility" line shows country eligibility inline.
 - `https://himalayas.app/jobs/countries/<country>/<discipline>` was readable via WebFetch.
@@ -368,6 +382,8 @@ window.MORE=function(){var b=[...document.querySelectorAll('button')]
 
 Lesson, and it is the transferable one: **generic remote boards are US-heavy and stale, while one good niche board for the candidate's discipline outperforms all of them.** After this measurement the board step shrank to one niche board daily, one generic board twice a week, and one discovery-only board monthly. Find the equivalent three for the candidate's field rather than adding more generic boards.
 
+**A posting's advertised location can be stricter than the gate its own form applies. Read the form's eligibility question before skipping on the label.** Measured 26 Sept on TheyDo: the Ashby header said `Location: European Economic Area`, which Türkiye is not in and which under the country-list rule reads as a closed door. The form asked one eligibility question, **"Will you work/live within the CET +/- 2 timezone?"**, and had no country or residence field anywhere. For a UTC+3 candidate that is CET+2, so the honest answer is Yes and the header was not the rule. A second posting the same day was the mirror image in the candidate's favour: header `Amsterdam / Remote`, `Location Type: Hybrid`, and the description carried "Although this role can be remote, we are only considering candidates based in CET +/-3 timezones". **A region name in the location header is the recruiter's shorthand for where they expect people to be, not always the rule they enforce.** Opening the form costs a navigation and one read. The country-list trap still stands for an explicit list of named countries; this is about a single region word.
+
 **11th platform, Glassdoor:** home country only, one broad discipline keyword + the home `IN<id>`.
 
 **Indeed** (measured 22 Sept, one home market)
@@ -382,8 +398,12 @@ Lesson, and it is the transferable one: **generic remote boards are US-heavy and
 - **Second measurement, 23 Sept, same home market:** three passes (broadest local discipline word 7 days, the English two-word title 7 days, the bare discipline acronym 14 days) returned 38 cards, 2 on-discipline postings, and **0 new candidates**. Both on-discipline hits were already in the tracker from other sources, one of them applied to 17 days earlier through the employer's own careers site. The rest were the same collisions as the first measurement: packaging, construction, lighting, architecture, social media, front-end.
 - **Third measurement, 24 Sept, same home market:** four passes (the English two-word title, the broadest local discipline word, the bare acronym, and a design-system pass) returned 33 cards and **0 new candidates**. Every on-discipline hit was already tracked: one applied to 18 days earlier through the employer's own careers site, one applied to 7 days earlier, one skipped 7 days earlier for scope. The rest were the same collisions (graphic, social media, interior/industrial, mould design, HVAC).
 - **The same posting can appear under two `jk` values on one results page**, and the second one can look synthetic (`f1e2d3c4b5a67890`, `456789abcdef0123` seen alongside ordinary random hex on 24 Sept). Dedup on `jk` before counting, and don't treat a tidy-looking `jk` as evidence of anything; resolve the posting and dedup on the employer's own apply URL.
-- **Evidence summary, measured three times:** low yield, and the only source so far whose entire yield was already in the tracker on every run. The inventory arrives through LinkedIn, the niche boards and Glassdoor first, usually days earlier.
-- **Cadence is the candidate's call, not this file's.** The evidence above argues for a weekly slot at most; a candidate may reasonably want it daily anyway, since a cheap source that duplicates 100% of its yield still costs only a few calls and its miss rate on local postings is unmeasured. Run whatever `boards` in `profile/search.json` says. **How to run it:** one domain per country, home country only, a real location value (an empty one trips the verification wall), the broadest discipline word plus the candidate's English titles, a 7-day window, and expect dedup to absorb most of it. Dedup on `jk` before counting, and check the apply URL against the tracker before opening anything.
+- **Fourth measurement, 26 Sept, same home market:** five passes (`product designer`, `tasarımcı`, `ux`, `ui designer`, `design system`, all 7 days, `l=Türkiye`) returned 53 cards, 5 on-discipline postings, and **0 new candidates**. Every one was already in the tracker, one of them applied to twenty days earlier through the employer's own site and the rest already judged and skipped. The collisions were the same families again: graphic and social media, packaging, HVAC, and on the `design system` pass an entire page of electrical, physical and .NET engineering.
+- **Fifth measurement, 27 Sept, same home market:** five passes over a 3-day window returned about 51 cards, 4 on-discipline, and **0 new candidates**. The same five employers as the day before, all already in the tracker, plus one applied to three weeks earlier through the employer's own site. The `design system` pass returned 16 cards and **0** that survived a title filter. Five runs, five zeroes.
+- **Sixth measurement, 28 Sept:** three passes over a 3-day window, 23 cards, 4 on-discipline, **0 new**. Three already-judged local postings and a metro-project design manager. Six runs, six zeroes, and the yield has now been 100% already-tracked on every single measured pass since 22 Sept. **The evidence for a daily slot is gone.** Fortnightly at most, on the same footing as Dice. The cadence is still the candidate's call.
+- **The results list rotates between passes minutes apart, so capture the `jk` in the same call that reads the titles.** Measured 26 Sept: a `ui designer` pass returned Canva, Growmodo and Macellan; the identical URL re-read a few minutes later returned Kriyus Digital and a co-founder ad instead, with all three of the first set gone. Re-running the query to "go back and get the ids" does not work, and searching the company name is worse: `q=Canva` returns every posting that mentions Canva as a tool, which on this market is social-media and graphic roles. Read `data-jk`, the `aria-label` title, `[data-testid=company-name]` and `[data-testid=text-location]` in one pass and keep them.
+- **Evidence summary, measured six times (22, 23, 24, 26, 27 and 28 Sept):** low yield, and the only source so far whose entire yield was already in the tracker on **every single run**. The inventory arrives through LinkedIn, the niche boards and Glassdoor first, usually days earlier.
+- **Cadence is the candidate's call, not this file's.** The evidence above argues for fortnightly at most; a candidate may reasonably want it daily anyway, since a cheap source that duplicates 100% of its yield still costs only a few calls and its miss rate on local postings is unmeasured. Run whatever `boards` in `profile/search.json` says. **How to run it:** one domain per country, home country only, a real location value (an empty one trips the verification wall), the broadest discipline word plus the candidate's English titles, a 7-day window, and expect dedup to absorb most of it. Dedup on `jk` before counting, and check the apply URL against the tracker before opening anything.
 
 **Dice (dice.com)** — US tech board, profile set up 24 Sept, first run measured the same day.
 
@@ -438,6 +458,19 @@ JSON.parse(document.body.innerText).jobs.filter(x=>/design/i.test(x.title))
 
 ---
 
+
+## Inbound recruiter mail: verify before replying
+
+An unsolicited approach is not a source, it is a claim. Four checks, all cheap, before anything is sent:
+
+1. **Find the vacancy.** Probe `boards-api.greenhouse.io/v1/boards/<co>/jobs`, `api.ashbyhq.com/posting-api/job-board/<co>`, `jobs.lever.co/<co>`, `apply.workable.com/<co>`, `<co>.recruitee.com/api/offers/`, and the company's own `/careers`. A real role usually exists somewhere. Note that `/careers` can return **200 and silently redirect to the homepage**, so check the final URL, not the status code.
+2. **Read what the mail does not say.** A recruiter writing to a named person about a named job says the title, the level, the location and usually the band. A mail that offers to send "the role summary" *after* you reply is asking for a reply, not offering a job.
+3. **Check whether anything in it is about the candidate.** "Your experience stood out" with no mention of a single thing from the profile is a template.
+4. **The reply-to domain is the deciding signal.** A company address is a good sign; an unrelated free or agency domain on a mail written in the company's voice is not. Ask the candidate for it if it is not in view.
+
+None of this makes an approach fraudulent, and small companies do source quietly for roles they never advertise. It decides how much of the candidate's data goes out in the first reply. **Seekter never sends the reply**; it drafts, and the candidate sends.
+
+Measured 27 Sept on one such approach: real company, the description of it in the mail accurate, `/careers` redirected to the homepage, no board on any of the five ATSs, and their Recruitee API returned **0 offers**. Log it as `pending` against the company so dedup catches them later.
 
 ## Reply analysis (Outlook web) and rejection regex
 

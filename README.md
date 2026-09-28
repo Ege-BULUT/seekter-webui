@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="images/seekter-cover.jpg" alt="Seekter — job search, filtered by your rules" width="600">
-</p>
+![Seekter — job search, filtered by your rules](images/seekter-og-image.jpg)
 
 # Seekter
 

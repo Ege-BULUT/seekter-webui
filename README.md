@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="images/seekter-cover.jpg" alt="Seekter — job search, filtered by your rules" width="600">
+</p>
+
 # Seekter
 
 A job-search agent for Claude Code. It searches job sources every day, filters postings against **your** rules (location, visa, salary, sectors, seniority, language), fills application forms in your own Chrome, and keeps every application and skip as a markdown file you can read, grep and diff.

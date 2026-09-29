@@ -123,8 +123,20 @@ def norm(v: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", (v or "").strip().lower()).strip("-")
 
 
+# NFKD folds a letter to ASCII only when it decomposes into a base letter plus a
+# combining mark. A letter that is its own base character has no decomposition, so
+# `encode("ascii", "ignore")` deletes it outright: Turkish ı, Polish ł, Nordic ø/æ,
+# Croatian đ, German ß and Icelandic þ/ð all vanish, so a Turkish employer name
+# reached a filename as "tasarm" instead of "tasarim". `slug` is also what the
+# same-company check compares, so two different employers could fold onto one
+# string: "Işık" and "Isk" both became "isk".
+FOLD = str.maketrans({"ı": "i", "İ": "I", "ł": "l", "Ł": "L", "ø": "o", "Ø": "O",
+                      "đ": "d", "Đ": "D", "ð": "d", "Ð": "D", "ß": "ss",
+                      "æ": "ae", "Æ": "AE", "œ": "oe", "Œ": "OE", "þ": "th", "Þ": "TH"})
+
+
 def slug(s: str, n: int = 40) -> str:
-    s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
+    s = unicodedata.normalize("NFKD", (s or "").translate(FOLD)).encode("ascii", "ignore").decode()
     s = re.sub(r"[^a-zA-Z0-9]+", "-", s).strip("-").lower()
     return s[:n].rstrip("-") or "x"
 

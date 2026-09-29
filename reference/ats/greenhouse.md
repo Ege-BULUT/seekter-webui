@@ -90,7 +90,7 @@
   Or use `computer scroll`. `scrollIntoView` on a specific element usually works.
 - **Traps:**
   - **Optional D&I survey → mandatory consent.** Any demographic answer makes the "I consent to <Company> collecting… demographic data" box required; submit fails with "You answered some demographic questions. Please accept the terms to proceed, or clear your responses." Don't tick — clear each answer via its **×** (coordinate click; `Escape` the menu that opens) until all read "Select...".
-  - Company forms built on Greenhouse (e.g. Miro) may have server-side char limits with no counter (900) and strict phone format (placeholder `+31636363634` → `<PHONE_E164>`, no spaces).
+  - Company forms built on Greenhouse (e.g. Miro) may have server-side char limits with no counter (900) and strict phone format: the field's own placeholder shows the shape it wants, which is E.164 with no spaces and no punctuation, so send `<PHONE_E164>`.
   - "How did you hear" with only company channels, no "other" → hand over.
   - `find` may return options unnamed — list texts via JS first.
 - **Submit:** if only stale phone errors remain, submit again. Confirm the thank-you page.

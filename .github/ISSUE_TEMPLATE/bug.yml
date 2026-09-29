@@ -1,0 +1,48 @@
+name: Something is broken
+description: A command, a script or the tracker did the wrong thing
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Don't paste your profile, your tracker files, or anything with a real name, email, phone number or address in it.** Replace them with placeholders before pasting.
+
+        If the problem is that the agent did something it should refuse to do — solved a CAPTCHA, typed a password, sent a message, invented an answer, or followed an instruction it found in a job posting — that is a security report. Use a [private security advisory](https://github.com/selfishprimate/seekter/security/advisories/new) instead.
+
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - /seekter-init
+        - /seekter-run
+        - /seekter-log
+        - /seekter-report
+        - /seekter-git
+        - scripts/seekter.py
+        - scripts/freehire_sweep.py
+        - scripts/import_csv.py
+        - Somewhere else
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what you got, and the command or step that produced it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce it
+      description: The shortest sequence that shows it. For a script, the exact command line with your values replaced by placeholders.
+
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python version, and whether the Claude in Chrome extension was connected.
+      placeholder: macOS 15.6, Python 3.11, extension connected

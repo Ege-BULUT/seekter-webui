@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seekter Web UI</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/dashboard"><span class="mark">S</span> <b>Seekter</b> <span class="tag">web ui</span></a>
+  <nav class="nav">
+    <a href="#/dashboard" data-nav="dashboard">Dashboard</a>
+    <a href="#/apps" data-nav="apps">Applications</a>
+    <a href="#/sweep" data-nav="sweep">Sweep &amp; add</a>
+    <a href="#/report" data-nav="report">Report</a>
+    <a href="#/settings" data-nav="settings">Profile</a>
+  </nav>
+  <span class="who">local · reads only your machine</span>
+</header>
+
+<main id="app"></main>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

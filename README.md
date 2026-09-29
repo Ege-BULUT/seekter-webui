@@ -53,6 +53,41 @@ The inbox sweep uses the browser because the Microsoft 365 connector doesn't acc
 
 The **Needs you** table at the top of `applications/README.md` lists everything waiting on you: a CAPTCHA, an account wall, a question only you can answer, with the next step for each. Clear it before asking for more applications.
 
+## Web UI (wrapper)
+
+<img src="images/webui/dashboard.png" alt="Web UI dashboard with funnel and needs-you" width="760">
+
+A local web UI that drives the same tracker CLI and the freehire sweep from the browser: the whole daily loop watched and clicked instead of typed. Standard library only, no extra packages.
+
+```bash
+python3 scripts/webui.py --open        # 127.0.0.1:8770, Ctrl+C stops
+```
+
+| Screen | What it covers | CLI behind it |
+|---|---|---|
+| Dashboard | sent / response rate / needs-you / funnel, by month; one click rebuild-index and normalize dry-run | `list`, `stats`, `index`, `normalize --dry-run` |
+| Applications | every record and skip row, status filters, search, per-record detail (log, answers, why it fits), status moves with a dated note | `list`, `move`, `index` |
+| Sweep & add | runs the freehire sweep with a live log, lists candidates, per-candidate dedupe check, prefilled add form | `freehire_sweep.py`, `check`, `check-many`, `add`, `index` |
+| Report | the same numbers as /seekter-report, plus normalize and index actions | `stats`, `normalize`, `index` |
+| Profile | read-only view: profile/search.json, documents and the missing values listed | `profile` (read) |
+
+<p>
+  <img src="images/webui/applications.png" alt="Applications table with filters" width="49%">
+  <img src="images/webui/sweep.png" alt="Sweep screen with candidates and the add form" width="49%">
+</p>
+
+The server binds to 127.0.0.1: the tracker is an unencrypted local log, so keep it that way
+(`--port` and `--bind` exist, but this README will not tell you to expose it). Every mutation
+goes through the exact command the table documents, so the dedup guard, the exit code and the
+generated index behave identically in the browser and in the terminal. `--root` drives a
+different checkout.
+
+![Detail drawer with sections and status moves](images/webui/detail.png)
+
+The wrapper reads and writes only tracked files; it does not fill application forms, that stays
+with Claude in Chrome. Guardrails untouched: no CAPTCHA solving, no account creation, no
+passwords, no accepting terms, no invented answers.
+
 ## Your files
 
 ```

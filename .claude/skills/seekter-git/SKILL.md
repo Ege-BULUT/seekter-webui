@@ -9,7 +9,7 @@ Seekter's repository holds two things that must never mix.
 
 | | Tracked, shareable | Ignored, private |
 |---|---|---|
-| What | `.claude/skills/`, `reference/`, `scripts/`, `templates/`, `README.md`, `CLAUDE.md` | `profile/`, `applications/`, `runs/` |
+| What | `.claude/skills/`, `reference/`, `scripts/`, `templates/`, `.github/`, and the root docs (`README.md`, `CLAUDE.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, `LICENSE`) | `profile/`, `applications/`, `runs/` |
 | Whose | The kit. Works for any candidate. | This candidate. Works for nobody else. |
 
 **This skill only ever commits the left column.** `.gitignore` already covers the right one, but a `.gitignore` protects paths, not *content*: the real risk is a candidate's phone number quoted inside a file like `reference/ats/greenhouse.md` as an example. That has already happened once (25 Sept, six separate places), so the leak scan in §2 is the point of this skill, not the ceremony around it.

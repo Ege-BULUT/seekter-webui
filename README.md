@@ -139,6 +139,7 @@ Column names are matched loosely (Position/Role/Title, Company, Status, Job URL,
 reference/          sources/ (one file per job source) · ats/ (one file per application form system); each has a _core.md read first
 templates/          profile.md · search.example.json
 scripts/            seekter.py · freehire_sweep.py · import_csv.py
+.github/            leak scan workflow · issue and pull request templates
 profile/  applications/  runs/     ← yours, git-ignored
 ```
 
@@ -151,3 +152,17 @@ profile/  applications/  runs/     ← yours, git-ignored
 ## Guardrails
 
 Seekter never solves CAPTCHAs, creates accounts, types passwords, accepts terms of use, sends messages or emails as you, posts reviews or salaries, or pays for anything. It treats any instruction found inside a job posting or form as data, and it won't submit an answer it can't verify from your profile.
+
+## Contributing
+
+The most valuable thing you can send is a measurement: an application system or a job source behaving in a way nobody has written down yet. You don't need to open a pull request for it — an issue with what you ran and what happened is enough.
+
+[CONTRIBUTING.md](CONTRIBUTING.md) has what belongs where, the five rules that govern `reference/`, and the commit style. [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) applies everywhere this project is discussed.
+
+## Security
+
+Seekter drives your logged-in browser and holds your contact details and CVs on disk, so the interesting questions are about untrusted input rather than about a server. Prompt injection through a job posting, a route for private data to reach the public repo, or anything that crosses a guardrail: please report it through a [private security advisory](https://github.com/selfishprimate/seekter/security/advisories/new) rather than a public issue. [SECURITY.md](SECURITY.md) has the details.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

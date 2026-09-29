@@ -274,6 +274,8 @@ UI fallback (browser): `https://freehire.me/jobs?q=<search>&regions=europe,globa
 - 27 Sept: alive, 118 jobs, filters for Discipline / Role / Type / Location. Newest entry was 2 days old and the fresh page is dominated by US roles plus a run of French postings from one agency (NEXTON). Useful, but it surfaces less than the niche design-systems board and it lags it by a day or two.
 - Scan 2–3 days a week, not daily.
 
+**⛔ One role, six cities, six ids: the §2.7 spam pattern in its cheapest disguise.** Measured 29 Sept (Air Apps): an identical "Product Designer" title appeared under six separate Ashby ids for Amsterdam, Stockholm, Berlin, Rome, Paris and London. All six scored high in the same candidate list and read as six European opportunities. The tell is `check` returning SAMECO across the set: one company, one title, many ids. **When one company's identical title appears across more than about five cities, resolve one and dedup on the company, not the id.**
+
 **⛔ The US PERM labor-certification notice, and how to recognise it before you fill a form.** Measured 27 Sept on an AcuityMD Greenhouse posting that had reached the candidate list from two sources. A US employer sponsoring a green card must advertise the role publicly, and those notices are posted on the normal job board and look like openings. The tells, all present together:
 - The body opens in the third person naming the company and a single city: "‹Company›, Inc seeks ‹Title› in ‹City›, ‹State›", even when the header says "‹City› or Remote".
 - The description is a flat "Job Duties:" block rather than a pitch, a team description or benefits.

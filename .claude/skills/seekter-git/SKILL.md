@@ -12,7 +12,7 @@ Seekter's repository holds two things that must never mix.
 | What | `.claude/skills/`, `reference/`, `scripts/`, `templates/`, `README.md`, `CLAUDE.md` | `profile/`, `applications/`, `runs/` |
 | Whose | The kit. Works for any candidate. | This candidate. Works for nobody else. |
 
-**This skill only ever commits the left column.** `.gitignore` already covers the right one, but a `.gitignore` protects paths, not *content*: the real risk is a candidate's phone number quoted inside `reference/ats-mechanics.md` as an example. That has already happened once (25 Sept, six separate places), so the leak scan in §2 is the point of this skill, not the ceremony around it.
+**This skill only ever commits the left column.** `.gitignore` already covers the right one, but a `.gitignore` protects paths, not *content*: the real risk is a candidate's phone number quoted inside a file like `reference/ats/greenhouse.md` as an example. That has already happened once (25 Sept, six separate places), so the leak scan in §2 is the point of this skill, not the ceremony around it.
 
 ## 0. Only run when there is kit work to ship
 
@@ -78,7 +78,7 @@ Sage HR blocks submit on a checkbox it reports as optional
 Three ATS traps from one afternoon
 ```
 
-So: **a sentence that states the finding**, sentence case, no prefix, no ticket, no trailing full stop, imperative only when the change really is an instruction. It should read like the line you would say out loud to explain why the file changed. `fix: update ats-mechanics.md` fails on every count.
+So: **a sentence that states the finding**, sentence case, no prefix, no ticket, no trailing full stop, imperative only when the change really is an instruction. It should read like the line you would say out loud to explain why the file changed. `fix: update greenhouse.md` fails on every count.
 
 - **One commit per lesson.** Split unrelated findings. Group only what genuinely came from one sitting, and then say so in the subject, which is what `Three ATS traps from one afternoon` is doing.
 - **Body:** what was measured, where, and what it cost. Dates and numbers, because the references are written that way and the log should match. Skip the body only when the subject is complete on its own.

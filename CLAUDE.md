@@ -7,7 +7,7 @@ Seekter is a job-search agent that runs inside Claude Code: it searches job sour
 | Path | What | Git |
 |---|---|---|
 | `.claude/skills/seekter-*/SKILL.md` | The five commands: `/seekter-init`, `/seekter-run`, `/seekter-log`, `/seekter-report`, `/seekter-git` | tracked |
-| `reference/sources.md` | How each job source works (APIs, LinkedIn scripts, boards, inbox) | tracked |
+| `reference/sources/` | One file per job source: `_core.md` (always read) plus `linkedin.md`, `freehire.md`, one per board, `inbox.md` | tracked |
 | `reference/ats-mechanics.md` | How each application form system behaves (Greenhouse, Ashby, Workday, Lever…) | tracked |
 | `templates/` | Profile and search-config templates that `/seekter-init` fills | tracked |
 | `scripts/seekter.py` | Tracker CLI: check, check-many, add, move, list, index, stats | tracked |

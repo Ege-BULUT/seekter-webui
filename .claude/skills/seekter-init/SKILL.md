@@ -14,7 +14,7 @@ The goal is a complete `profile/profile.md` (from `templates/profile.md`) and `p
 - **Skippable.** "Skip" or "later" writes `ASK` and moves on. Sensitive items (birth date, ethnicity, disability, gender, salary history) default to "prefer not to say" unless the user volunteers a value.
 - **Resumable.** After each answered section, save progress to `profile/.init-state.json` (`{"done": ["identity", ...], "answers": {...}}`) and write what's known into `profile/profile.md`. On restart, read the state file, say where you're resuming, and continue.
 - **Explain once why** at the start: "I'll ask about 40 short questions in 9 groups. Everything stays in `profile/`, which git ignores."
-- Don't ask what you can derive: timezone from city, ASCII fallback from name, E.164 phone from local number + country, LinkedIn geoId from country (table in `reference/sources.md`).
+- Don't ask what you can derive: timezone from city, ASCII fallback from name, E.164 phone from local number + country, LinkedIn geoId from country (table in `reference/sources/linkedin.md`).
 
 ## Order
 
@@ -33,8 +33,8 @@ The goal is a complete `profile/profile.md` (from `templates/profile.md`) and `p
     - freehire `queries` (their target titles, lowercase) and `categories`: don't guess the taxonomy — run `curl -sS -A seekter "https://freehire.me/api/v1/jobs/facets?q=<their main title>"` and pick the categories that actually carry their field, then show them the counts.
     - `regions` and `home_country` from §6; `languages` from §1.
     - `title_keep`: the title families worth opening. `title_drop`: wrong seniority **plus the other industries that share their job title** — ask them which ones ("who else calls themselves this?"), because they know their field's collisions and you don't. The template's `_title_filters` comment holds a worked example from another discipline; use its shape, not its words.
-    - LinkedIn `searches`: one row per title family × geography, remote flag per §6; a second row without the remote flag for any geography where they can work on-site. geoIds from the table in `reference/sources.md`.
-    - `boards`: ask which boards they already read. A niche board for their own discipline beats every generic remote board (`reference/sources.md`, "Other boards").
+    - LinkedIn `searches`: one row per title family × geography, remote flag per §6; a second row without the remote flag for any geography where they can work on-site. geoIds from the table in `reference/sources/linkedin.md`.
+    - `boards`: ask which boards they already read. A niche board for their own discipline beats every generic remote board (`reference/sources/_core.md`, the report card). Every board they name needs a file in `reference/sources/`; a board with no file has never been measured.
     Show the finished list and let them trim it.
 11. **Tracker import (optional).** Ask whether they already track applications somewhere. Notion or any spreadsheet → export as CSV → `python3 scripts/import_csv.py <file>.csv --dry-run`, show the counts, then run it for real. This is what makes dedup work from day one.
 12. **Finish.** Write the final `profile/profile.md` (fill §10–§12, set "Last updated"), delete `profile/.init-state.json`, run `python3 scripts/seekter.py index`, then print:

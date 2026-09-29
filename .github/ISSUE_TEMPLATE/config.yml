@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a vulnerability or a guardrail failure
+    url: https://github.com/selfishprimate/seekter/security/advisories/new
+    about: Prompt injection through a posting, a route to a committed private value, or anything that crosses a guardrail. Private, not a public issue.
+  - name: How to contribute a measurement
+    url: https://github.com/selfishprimate/seekter/blob/main/CONTRIBUTING.md
+    about: What belongs in reference/, the five rules that govern it, and the commit style.

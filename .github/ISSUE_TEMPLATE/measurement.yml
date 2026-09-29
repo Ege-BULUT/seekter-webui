@@ -1,0 +1,69 @@
+name: A measurement
+description: A job source or an application form system behaved in a way that isn't written down
+labels: ["reference"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the most useful kind of issue here. You don't need to open a pull request — a clear measurement is enough, and someone can write it up.
+
+        **Before you type: no real names, email addresses, phone numbers, addresses or CVs, yours or anyone else's.** Redact screenshots. A note is about the widget, never about the person.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What behaved unexpectedly
+      options:
+        - An application form system (Greenhouse, Ashby, Workday, Lever, something else)
+        - A job source or board
+        - Neither — it belongs to no single source or vendor
+    validations:
+      required: true
+
+  - type: input
+    id: subject
+    attributes:
+      label: Which one
+      description: The vendor or source name. If you know the file, name it.
+      placeholder: SmartRecruiters — reference/ats/smartrecruiters.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: measurement
+    attributes:
+      label: What you did and what happened
+      description: What you ran, what came back, and on what date. Verbatim text from the page helps; screenshots help more when they're redacted.
+      placeholder: |
+        Measured 29 Sept. The form was filled completely, then "Reject all" on the
+        consent banner wiped every field, both radio groups and the uploaded CV.
+        Refilling worked; the banner did not reappear.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rule
+    attributes:
+      label: What the rule should be
+      description: One or two sentences an agent could follow next time.
+      placeholder: Handle the consent banner before filling anything. If one reappears after the form is filled, leave it alone and submit.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Anything that limits it
+      description: Optional. A discipline, a country, a browser, a single tenant — say so if the measurement might not travel.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: There are no real names, emails, phone numbers, addresses or CV contents in this issue, including inside screenshots
+          required: true
+        - label: I checked whether the existing file already says something about this, and said so above if it contradicts me
+          required: false
+        - label: For a new board — I read `reference/sources/dead-and-low-value.md` first
+          required: false

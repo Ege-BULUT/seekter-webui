@@ -14,7 +14,7 @@
     "window_days": 3
   },
   "linkedin": {
-    "_searches": "One row per title family x geography. Keywords unquoted (quotes cut recall). geo_id from the table in reference/sources.md; 92000000 = Worldwide, 91000002 = EEA. remote = the f_WT=2 filter, which hides hybrid and on-site roles, so add a second row without it for any geography where the candidate can work on-site.",
+    "_searches": "One row per title family x geography. Keywords unquoted (quotes cut recall). geo_id from the table in reference/sources/linkedin.md; 92000000 = Worldwide, 91000002 = EEA. remote = the f_WT=2 filter, which hides hybrid and on-site roles, so add a second row without it for any geography where the candidate can work on-site.",
     "home_geo_id": "",
     "window": "r259200",
     "searches": [
@@ -22,7 +22,7 @@
       {"keywords": "", "geo_id": "91000002", "remote": true}
     ]
   },
-  "_boards": "Job boards for this candidate's field, with how often they are worth a visit. reference/sources.md rates the general ones; niche boards are per-discipline, so ask the candidate which they already read.",
+  "_boards": "Job boards for this candidate's field, with how often they are worth a visit. reference/sources/_core.md rates the general ones and reference/sources/ has one file per measured board; niche boards are per-discipline, so ask the candidate which they already read.",
   "boards": [
     {"name": "", "cadence": "weekly"}
   ]

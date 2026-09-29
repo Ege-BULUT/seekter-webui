@@ -13,7 +13,9 @@ A template engine. **Everything personal lives in `profile/`**; this file holds 
 |---|---|---|
 | `profile/profile.md` | Identity, email, standard answers, salary bands, targets, location rules, blacklist, fact bank, voice | **Always, in full, first** |
 | `profile/search.json` | Queries, regions, geoIds, title filters, boards | Always |
-| `reference/sources.md` | freehire API, LinkedIn alerts / notifications / Voyager scripts / Easy Apply driver, other boards, inbox analysis | Always, before Step 1 |
+| `reference/sources/_core.md` | Index of the source files, plus the rules that belong to no single source | **Always, before Step 1** |
+| `reference/sources/linkedin.md` · `freehire.md` | Steps 1-4: the two sources that run every time | Always, before Step 1 |
+| `reference/sources/<board>.md` | One file per board | Only for the boards in play this run (`profile/search.json`) |
 | `reference/ats-mechanics.md` | Per-ATS form mechanics (Greenhouse, Ashby, Workday, Lever, Teamtailor, SmartRecruiters…) | The matching section **before filling each form** |
 
 Placeholders in the reference docs (`<FIRST_NAME>`, `<EMAIL>`, `<PHONE_LOCAL>`, `<CV_NAME>`, `PROFILE_QUERIES`, `PROFILE_REGIONS`, `PROFILE_HOME_COUNTRY`…) resolve from the profile.
@@ -31,13 +33,13 @@ Alerts, notifications and searches are **separate channels. None is a backup for
 
 **Harvest all five before filling a single form.** Steps 1 to 5 are cheap; forms are not. A run that fills a form in step 1 and triages step 2 in detail will run out of room before step 3, and the step that gets lost is the one carrying most of the day's new postings. Sweep every source, dedup and filter to a candidate list, *then* start applying in the §3 priority order. If the session ends early the report still shows a complete picture of the market, and the queue survives into the next run.
 
-| # | Step | Method in `sources.md` |
+| # | Step | Method in `reference/sources/` |
 |---|---|---|
 | 1 | **freehire API sweep** (+ Jobicy) | `python3 scripts/freehire_sweep.py`, then `--detail <n>` per candidate |
 | 2 | **LinkedIn job-alert notifications** | Harvest `originToLandingJobPostings` IDs → Voyager detail |
 | 3 | **LinkedIn searches** (every row of `linkedin.searches` in `profile/search.json`, unquoted, **relevance order, never sortBy DD**) | Voyager REST search, max 3 per JS call |
 | 4 | **LinkedIn tracker** (saved + drafts) | `jobs-tracker/?stage=draft`, "Continue" on the job page |
-| 5 | **Other boards** at the cadence in the profile | Per-board notes |
+| 5 | **Other boards** at the cadence in the profile | One file per board in `reference/sources/` |
 
 Rules:
 - **Unquoted keywords always.** Quotes kill recall in both search and alerts. Search wide, filter by title and description.
@@ -54,7 +56,7 @@ Rules:
 2. **Blacklist and sensitive sectors** (profile §7). Read the sector from the **company's own pitch**, not the title (a plain, on-target job title over a company that describes itself as a "European leader in sports betting"). freehire `enrichment.domains`, Djinni `Domain:`. Sensitive sector → skip silently, log reason, never ask. Sectors marked "ask" → ask.
 1.5 **A pending hand-off is an unverified claim, not a fact. Confirm it in the inbox before touching it again.**
    The tracker only learns what happened to a hand-off if the candidate says so, and he often just does it and moves on. Measured 25 Sept: Vinted sat as `pending` with "waiting on you: tick the reCAPTCHA" while the Greenhouse confirmation **"Vinted is on it!"** had been in his mailbox since 24 Sept 11:10. The whole form was rebuilt and refilled before the audit caught it, and submitting it would have been a duplicate application. The same sweep found Scalable Capital sitting as `pending` while the rejection for that exact role had arrived on 18 Sept.
-   So: **before reopening any `pending` record, search the inbox for the company name** (method in `sources.md`). A confirmation mail means move it to `applied` with the mail's date and stop. A rejection means `rejected`. Nothing at all means the hand-off really is still open. Six pending records took six searches and corrected three of them.
+   So: **before reopening any `pending` record, search the inbox for the company name** (method in `sources/inbox.md`). A confirmation mail means move it to `applied` with the mail's date and stop. A rejection means `rejected`. Nothing at all means the hand-off really is still open. Six pending records took six searches and corrected three of them.
 
 1.6 **Same company plus the same role title is a repost, not a new job.**
    `check` returns SAMECO and prints the earlier records with their status and role. **Read the role names it prints.** If one matches the posting in front of you, open that record before filling anything: the employer has almost certainly reposted under a new id after closing the first round. Measured 25 Sept: Scalable Capital's Digital Product Designer (m/f/x) was applied to on 9 Sept under SmartRecruiters id `744000148422454`, rejected on 18 Sept, and reposted as `744000151002344`; the 23 Sept run saw SAMECO, prepared the whole form anyway and handed it over. `job_key` is not at fault here and must not be "fixed" for it, because the two ids are genuinely different postings. This is a reading failure, and the fix is to read.
@@ -162,7 +164,7 @@ Use the profile's **voice** section and **fact bank**. Engine rules that always 
      --answers "free-text answers exactly as submitted"
    ```
    `--url` is always filled; it is what dedup keys on. `--answers` keeps the "no sentence twice" rule checkable: grep `applications/*/` before writing a new answer. Needs-you items are `--status pending` with the exact action in `--notes`. `add` and `move` regenerate `applications/README.md` themselves; pass `--no-index` in a bulk loop and run `index` once at the end.
-2. **Profile/reference upkeep:** new ATS trap → `reference/ats-mechanics.md`; new source behaviour → `reference/sources.md`; new rule, blacklist entry, standard answer or fact → `profile/profile.md`. Edit in place; replace outdated text instead of appending history.
+2. **Profile/reference upkeep:** new ATS trap → `reference/ats-mechanics.md`; new source behaviour → that source's file in `reference/sources/` (a source with no file gets one, plus a row in `_core.md`'s table); a lesson that is not about one source's own mechanics → `reference/sources/_core.md`; new rule, blacklist entry, standard answer or fact → `profile/profile.md`. Edit in place; replace outdated text instead of appending history.
 3. **Report** to the user, short, and save the same text as `runs/<YYYY-MM-DD>.md` (append `-2`, `-3` for extra runs that day):
    - The 5-step source table.
    - **Applied (n):** role · company · why it fits (one line each). Flag low-odds submissions and same-company second roles.

@@ -136,7 +136,7 @@ Column names are matched loosely (Position/Role/Title, Company, Status, Job URL,
 
 ```
 .claude/skills/     seekter-init · seekter-run · seekter-log · seekter-report · seekter-git
-reference/          sources.md (how each job source works) · ats-mechanics.md (how each form system behaves)
+reference/          sources/ (one file per job source; _core.md is read every run) · ats-mechanics.md (how each form system behaves)
 templates/          profile.md · search.example.json
 scripts/            seekter.py · freehire_sweep.py · import_csv.py
 profile/  applications/  runs/     ← yours, git-ignored

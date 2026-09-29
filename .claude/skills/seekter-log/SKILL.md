@@ -21,7 +21,7 @@ Find the file first when the user only gives a company name: `python3 scripts/se
 
 ## B. Inbox sweep (when the user asks, or weekly)
 
-Follow "Reply analysis" in `reference/sources.md`: open the user's webmail in Claude in Chrome, collect messages since the last sweep, **read bodies, not subjects**, and match with the rejection regex there (then read the matched sentence; boilerplate like "if you are not selected" is a false positive).
+Follow "Reply analysis" in `reference/sources/inbox.md`: open the user's webmail in Claude in Chrome, collect messages since the last sweep, **read bodies, not subjects**, and match with the rejection regex there (then read the matched sentence; boilerplate like "if you are not selected" is a false positive).
 
 **Read every folder the profile's §11 table lists**, and re-read that table each sweep rather than trusting a remembered count: the list grows. It went from three folders to four on 25 Sept when **Action Required** was added for mail that asks the candidate to act.
 

@@ -31,7 +31,7 @@ leider|nicht weiter|malheureusement|bohužel|no continuar|continue with other/i
 **Which folders to sweep.** Never just the Inbox. Candidates file application mail, and employer mail lands in Junk regularly, so read every folder the profile lists (§11). A sweep of one folder under-counts replies and makes the funnel look worse than it is.
 
 **Fast reading technique in Outlook Web**
-1. The list is virtualized (6-8 rows in the DOM). **Harvest `[role=option]` and read its `aria-label`** (re-measured 22 Sept; the older `[data-convid]` attribute is gone). The label carries sender, subject, date and a body preview in one string, which is enough to triage before opening anything:
+1. The list is virtualized (6-8 rows in the DOM). **Harvest `[role=option]` and read its `aria-label`.** The label carries sender, subject, date and a body preview in one string, which is enough to triage before opening anything. `[data-convid]` works again as of 29 Sept and returns the same count, so use whichever survives; do not assume either one is dead, and allow up to 25 s after a folder switch before treating a count of zero as real:
    ```js
    window.H=[];window.SEEN=new Set();
    window.GRAB=function(){document.querySelectorAll('[role=option]').forEach(o=>{
@@ -39,6 +39,14 @@ leider|nicht weiter|malheureusement|bohužel|no continuar|continue with other/i
      if(a&&!window.SEEN.has(a)){window.SEEN.add(a);window.H.push(a);}});return window.H.length;};
    ```
    `[role=option]` returns 0 after a folder switch, and **"several seconds" understates it**: measured 23 Sept, the list stayed at 0 through waits totalling 18 s and 25 s on two different folders, while the rows were already visible in a screenshot the whole time. It is not a selector problem and not an empty folder. **Probe `document.querySelectorAll('[role=option]').length` on its own before believing a 0**, and keep re-running the harvest until it is non-zero; a screenshot showing rows while the count is 0 means keep waiting, nothing else. The same trap in a different costume as the Indeed `h2 a span` bug: a zero count over a visibly full list is a bug until proven otherwise.
+   - **The search results list is a different component and exposes neither attribute.** After a search, `[role=option]` returns 0 however long you wait, while the rows are plainly on screen. One selector covers both views: `div[aria-label]` filtered to labels that carry a date.
+     ```js
+     window.ROWS=function(){return [...document.querySelectorAll('div[aria-label]')]
+       .map(e=>e.getAttribute('aria-label').replace(/\s+/g,' '))
+       .filter(a=>a.length>60&&/20\d\d|\d{1,2}:\d{2}/.test(a))
+       .filter((v,i,s)=>s.indexOf(v)===i);};
+     ```
+   - **Searching one company name is the cheap way to audit a hand-off, and an empty result is an answer.** Measured 29 Sept: four `pending` records were searched by company and all four came back with nothing, which is what confirmed those hand-offs were still genuinely open rather than quietly resolved weeks ago. Read emptiness off the page's own "no results" text rather than off a row count of zero, because zero is also what a list that has not rendered yet returns; the string is localised, so match the mailbox's UI language.
 2. **The `aria-label` carries 200+ characters of the body, which is usually enough to classify without opening the message.** Measured 22 Sept: of 173 harvested labels, 30 matched the rejection regex and all 30 quoted a real decision sentence ("we won't be moving forward", "decided to move forward with other candidates"). Not one was the "if you are not selected" boilerplate false positive. Read the matched sentence out of the label, and only open a message when the label truncates before the verdict.
 3. Rejection mails usually name the role, which resolves a company with several open applications ("the Staff Product Designer position", "Senior Design Engineer - MetaMask"). Match on the role before moving a row, or the wrong application gets closed.
 4. Scroll with a **real** `computer` scroll and `GRAB()` after each one. Setting `scrollTop` moves the container but does **not** make the virtualized list fetch more rows, so the harvest silently stops growing while the scrollbar appears to move. About 6 new rows per 5 ticks; the server pauses to fetch every ~40 rows.

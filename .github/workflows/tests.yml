@@ -1,0 +1,28 @@
+name: tests
+
+# scripts/seekter.py is the one part of this kit that can lose an application:
+# dedup that misses a duplicate costs a second submission to a company that
+# already rejected you, and a status change that rewrites the wrong file costs
+# the record of what was sent. The suite is standard library only and runs the
+# real script against a throwaway repository, so there is nothing to install.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.9 is the floor the README promises; 3.13 is what a current machine has.
+        python-version: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run the tracker tests
+        run: python3 -m unittest discover tests -v

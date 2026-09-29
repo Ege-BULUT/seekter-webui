@@ -95,7 +95,19 @@ claude                                  # open Claude Code in the repo
 
 You need [Claude Code](https://docs.claude.com/en/docs/claude-code), the Claude in Chrome extension logged in to LinkedIn, Python 3.9+ and `curl`. There is nothing to install and no build step.
 
-To exercise the tracker CLI without a full run:
+## Tests
+
+`scripts/seekter.py` has a test suite. It is standard library only, it never touches your own tracker — every case builds a throwaway repository in a temp directory — and it takes about three seconds:
+
+```bash
+python3 -m unittest discover tests
+```
+
+**Run it before and after any change to `scripts/`.** It also runs on every pull request, on Python 3.9 and 3.13.
+
+The suite is not written for coverage. Every case is either a promise the README makes or a bug that already cost something, and the comment above it says which — the Breezy rename that passed dedup as new, the Ashby UUID that a sweep of LinkedIn ids could not find, the skip row that must not swallow an application's submitted answers. **If you fix a bug in the CLI, add the case that would have caught it**, with the same kind of comment.
+
+To poke at the CLI by hand instead:
 
 ```bash
 python3 scripts/seekter.py --help
@@ -103,7 +115,7 @@ python3 scripts/seekter.py stats
 python3 scripts/seekter.py normalize --dry-run
 ```
 
-A reference change is best tested by doing the thing it describes: open that form or that board, follow the note, and check it survives contact.
+A reference change can't be unit-tested. Test it by doing the thing it describes: open that form or that board, follow the note, and check it survives contact.
 
 ## Opening a pull request
 

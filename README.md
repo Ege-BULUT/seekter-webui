@@ -139,7 +139,8 @@ Column names are matched loosely (Position/Role/Title, Company, Status, Job URL,
 reference/          sources/ (one file per job source) · ats/ (one file per application form system); each has a _core.md read first
 templates/          profile.md · search.example.json
 scripts/            seekter.py · freehire_sweep.py · import_csv.py
-.github/            leak scan workflow · issue and pull request templates
+tests/              tracker CLI tests: python3 -m unittest discover tests
+.github/            leak scan and test workflows · issue and pull request templates
 profile/  applications/  runs/     ← yours, git-ignored
 ```
 

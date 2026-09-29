@@ -13,6 +13,7 @@ Seekter is a job-search agent that runs inside Claude Code: it searches job sour
 | `scripts/seekter.py` | Tracker CLI: check, check-many, add, move, list, index, stats | tracked |
 | `scripts/freehire_sweep.py` | Step 1 API sweep with the profile's queries | tracked |
 | `scripts/import_csv.py` | One-off import of an existing tracker (Notion/Sheets CSV) | tracked |
+| `tests/test_seekter.py` | Tracker CLI tests, stdlib only, throwaway repo per case: `python3 -m unittest discover tests`. Run it after any change to `scripts/` | tracked |
 | `CONTRIBUTING.md` · `CODE_OF_CONDUCT.md` · `SECURITY.md` · `LICENSE` · `.github/` | The public-repo documents: what belongs in `reference/` and the rules that govern it, conduct, the threat model and how to report, MIT, the leak-scan workflow and the issue/PR templates | tracked |
 | `profile/` | The candidate: `profile.md`, `search.json`, `documents/` (CVs) | **ignored** |
 | `applications/<YYYY-MM>/` | One markdown file per application or hand-off, plus `skipped.md` (one row per skipped posting). `applications/README.md` is the generated overview | **ignored** |

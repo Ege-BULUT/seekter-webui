@@ -14,6 +14,7 @@
 - [ ] Nothing tracked assumes a job title, a discipline, a city, a currency or a salary band. Where a measurement only holds for one of those, the note says so.
 - [ ] If a file already said something about this, I changed that sentence rather than adding a second one below it.
 - [ ] A new source or vendor file has a row in the matching `_core.md` index table.
+- [ ] If this touches `scripts/`: `python3 -m unittest discover tests` passes, and a fixed bug got the case that would have caught it.
 - [ ] The guardrails are untouched: no CAPTCHA solving, no account creation, no passwords, no accepting terms, no sending messages as the user, no invented answers.
 - [ ] I read my own diff.
 

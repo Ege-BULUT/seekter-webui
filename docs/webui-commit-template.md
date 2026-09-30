@@ -61,3 +61,23 @@ Rules:
 Each PR body embeds the checklist above, verbatim, and is merged only when its own
 test run line is in place. `main` keeps upstream history: fast-forward merges only,
 no force pushes.
+
+## Upstream contributions to `selfishprimate/seekter` (learned on PR #13)
+
+Upstream closed the wrapper PR with praise and a reason that was policy, not code:
+"too early for a web surface". What the review cared about, in order: the CONTRIBUTING
+format followed line by line, measurements with dates, the guardrail checklist checked
+honestly. Two things to remember for the next one:
+
+- Upstream branch naming does not follow the Web UI style: use
+  `seekter/<YYYY-MM-DD>-<the-lesson>` (CONTRIBUTING documents it), and squash the Web UI's
+  prefixed commits into one sentence-case, prefix-free commit ("The daily loop runs from
+  a browser now"), no trailing full stop.
+- Checks on a branch from a fork need the maintainer's approval in their repo settings,
+  so they may show "no checks" even when the suite passed locally. Carry the test counts
+  (suite name, size, date) in the PR description so the branch does not look untested.
+
+The real upstream contribution path is `reference/`: Jobvite, Zoho Recruit, Comeet and
+Cornerstone (and the account walls named in `reference/ats/_core.md`) have never been
+measured. A measurement means a real run through that system, so plan them for when
+actual applications go through those vendors; do not write notes that were not lived.
